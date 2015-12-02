@@ -13,28 +13,61 @@ public class LogFileReader {
         this.file = file;
     }
 
-    public List<Line> read(long startPoint, int lineCount) throws IOException {
-        List<Line> lines = new ArrayList<Line>();
+    public List<Line> read(final long startPoint, final int lineCount) throws IOException {
+        final List<Line> lines = new ArrayList<Line>();
+        read(new Accessor() {
+            @Override
+            public void access(RandomAccessFile randomAccessFile) throws IOException {
+                readLines(randomAccessFile, startPoint, lines, lineCount);
+            }
+        });
+        return lines;
+    }
 
+    public List<Line> readUp(final long startPoint, final int lineCount) throws IOException {
+        final List<Line> lines = new ArrayList<Line>();
+        read(new Accessor() {
+            @Override
+            public void access(RandomAccessFile randomAccessFile) throws IOException {
+                int foundLines = 0;
+                long cursor = startPoint-1;
+                while (foundLines <= lineCount && cursor > 0) {
+                    cursor--;
+                    randomAccessFile.seek(cursor);
+                    if (randomAccessFile.read() == '\n') {
+                        foundLines++;
+                    }
+                }
+                readLines(randomAccessFile, cursor, lines, foundLines);
+            }
+        });
+        return lines;
+    }
+
+    private void readLines(RandomAccessFile randomAccessFile, long cursor, List<Line> lines, int lineCount) throws IOException {
+        while (lines.size() < lineCount && cursor < file.length()) {
+            randomAccessFile.seek(cursor);
+            String line = randomAccessFile.readLine();
+            lines.add(new Line(cursor, randomAccessFile.getFilePointer(), line));
+            cursor = randomAccessFile.getFilePointer();
+        }
+    }
+
+    private void read(Accessor accessor) throws IOException {
         RandomAccessFile randomAccessFile = null;
         try {
             randomAccessFile = new RandomAccessFile(file, "r");
-
-            while (lines.size() < lineCount && startPoint < file.length()) {
-                randomAccessFile.seek(startPoint);
-                String line = randomAccessFile.readLine();
-                lines.add(new Line(startPoint, randomAccessFile.getFilePointer(), line));
-                startPoint = randomAccessFile.getFilePointer();
-            }
-
-
+            accessor.access(randomAccessFile);
         } finally {
             if (randomAccessFile != null) {
                 randomAccessFile.close();
             }
         }
+    }
 
-        return lines;
+
+    private interface Accessor {
+        void access(RandomAccessFile randomAccessFile) throws IOException;
     }
 
     public class Line {
@@ -58,6 +91,11 @@ public class LogFileReader {
 
         public String getContent() {
             return content;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[%d:%d] %s", startPoint, endPoint, content);
         }
     }
 }
