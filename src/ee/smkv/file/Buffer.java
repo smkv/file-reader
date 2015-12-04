@@ -3,8 +3,16 @@ package ee.smkv.file;
 import java.io.UnsupportedEncodingException;
 
 class Buffer {
-  private byte[] array = new byte[1024];
+  private byte[] array;
   private int cursor = -1;
+
+  Buffer() {
+    this(1024);
+  }
+
+  Buffer(int capacity) {
+    array = new byte[capacity];
+  }
 
   void append(byte b) {
     incrementCursorPosition();
@@ -34,8 +42,16 @@ class Buffer {
     cursor = -1;
   }
 
+  int size() {
+    return cursor + 1;
+  }
+
+  boolean isEmpty() {
+    return size() == 0;
+  }
+
   Buffer reverse() {
-    Buffer buffer = new Buffer();
+    Buffer buffer = new Buffer(size());
     for (int i = cursor; i >= 0; i--) {
       buffer.append(array[i]);
     }
@@ -43,11 +59,11 @@ class Buffer {
   }
 
   public String toString() {
-    return new String(array, 0, cursor);
+    return isEmpty() ? "" : new String(array, 0, cursor);
   }
 
   public String toString(String charset) throws UnsupportedEncodingException {
-    return new String(array, 0, cursor, charset);
+    return isEmpty() ? "" : new String(array, 0, cursor, charset);
   }
 
 
