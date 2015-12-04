@@ -18,13 +18,25 @@ public class LogFileReader {
     final List<Line> lines = new ArrayList<Line>();
     read(new Accessor() {
       @Override
-      public void access(RandomAccessFile randomAccessFile) throws IOException {
-        long cursor = startPoint;
-        while (lines.size() < lineCount && cursor < file.length()) {
-          randomAccessFile.seek(cursor);
-          String line = randomAccessFile.readLine();
-          lines.add(new Line(cursor, randomAccessFile.getFilePointer(), line));
-          cursor = randomAccessFile.getFilePointer();
+      public void access(RandomAccessFile raf) throws IOException {
+        long start = startPoint;
+        raf.seek(start);
+        Buffer buffer = new Buffer();
+        while (lines.size() < lineCount && raf.getFilePointer() < file.length()) {
+          byte b = raf.readByte();
+
+          if (b == '\n') {
+            lines.add(new Line(start, raf.getFilePointer(), buffer.toString()));
+            buffer.reset();
+            start = raf.getFilePointer();
+          }
+          else {
+            buffer.append(b);
+          }
+        }
+
+        if (!buffer.isEmpty()) {
+          lines.add(new Line(start, raf.getFilePointer(), buffer.toString()));
         }
       }
     });
@@ -33,33 +45,38 @@ public class LogFileReader {
 
   public List<Line> readUp(final long startPoint, final int lineCount) throws IOException {
     final List<Line> lines = new ArrayList<Line>();
-    if(startPoint <=0) return lines;
+    if (startPoint <= 0) {
+      return lines;
+    }
     read(new Accessor() {
       @Override
       public void access(RandomAccessFile raf) throws IOException {
-        raf.seek(startPoint-1);
+        raf.seek(startPoint - 1);
         Buffer buffer = new Buffer();
         long end = startPoint;
-        while (lines.size() < lineCount && raf.getFilePointer() > 0) {
+        while (lines.size() < lineCount) {
           byte b = raf.readByte();
-          if (b == '\n' && end != raf.getFilePointer()) {
-            lines.add(new Line(raf.getFilePointer(), end, buffer.reverse().toString()));
-            buffer.reset();
-            end = raf.getFilePointer();
-          }else{
+          if (b == '\n') {
+            if (end != raf.getFilePointer()) {
+              lines.add(new Line(raf.getFilePointer(), end, buffer.reverse().toString()));
+              buffer.reset();
+              end = raf.getFilePointer();
+            }
+          }
+          else {
             buffer.append(b);
           }
 
-          shiftPointer(raf, -2);
+          long next = raf.getFilePointer() - 2;
+          raf.seek(Math.max(0, next));
+          if (next < 0) {
+            break;
+          }
+
         }
         if (!buffer.isEmpty()) {
           lines.add(new Line(raf.getFilePointer(), end, buffer.reverse().toString()));
         }
-      }
-
-      private void shiftPointer(RandomAccessFile raf, int delta) throws IOException {
-        long next = raf.getFilePointer() + delta;
-        raf.seek(Math.max(0, next));
       }
     });
 

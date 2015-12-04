@@ -84,4 +84,23 @@ public class LogFileReaderTest {
                 "]",lines.toString());
 
     }
+
+    @Test
+    public void testReadUtf8() throws Exception {
+
+        File file = new File("test/ee/smkv/file/utf8.txt");
+        LogFileReader reader = new LogFileReader(file);
+        List<Line> lines = reader.read(0, 5);
+        assertEquals("[[0:21] фывапролдж, [21:46] йцукенгшщзхъ, [46:65] ячсмитьбю, [65:73] iopüõ, [73:79] öää]" , lines.toString());
+    }
+
+
+    @Test
+    public void testReadUtf8Up() throws Exception {
+
+        File file = new File("test/ee/smkv/file/utf8.txt");
+        LogFileReader reader = new LogFileReader(file);
+        List<Line> lines = reader.readUp(file.length(), 5);
+        assertEquals("[[0:21] фывапролдж, [21:46] йцукенгшщзхъ, [46:65] ячсмитьбю, [65:73] iopüõ, [73:79] öää]" , lines.toString());
+    }
 }
