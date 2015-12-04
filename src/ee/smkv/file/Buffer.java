@@ -34,7 +34,7 @@ class Buffer {
   }
 
   byte[] array() {
-    byte[] temp = new byte[cursor + 1];
+    byte[] temp = new byte[size()];
     System.arraycopy(array, 0, temp, 0, temp.length);
     return temp;
   }
