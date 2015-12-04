@@ -16,6 +16,7 @@ public class FilePaginationTest {
         assertEquals(26 , pagination.getPageCount());
         assertEquals("Lorem ipsum dolor sit amet, vestibulum vitae sapien pellentesque suspendisse a neque, amet ligula ve" , pagination.getPageAsString(0));
         assertEquals("l. Odio suscipit etiam eget wisi. Sodales ut nam arcu sodales, fringilla consequat sed fringilla lob" , pagination.getPageAsString(1));
+        assertEquals("" , pagination.getPageAsString(100));
     }
 
 
@@ -26,6 +27,8 @@ public class FilePaginationTest {
         assertEquals(1, new FixedSizeFilePagination(100, 100).getPageCount());
         assertEquals(2, new FixedSizeFilePagination(120, 100).getPageCount());
     }
+
+
 
     private class FixedSizeFilePagination extends FilePagination {
         private final int size;

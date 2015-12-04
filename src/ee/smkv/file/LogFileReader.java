@@ -14,9 +14,9 @@ public class LogFileReader {
     this.file = file;
   }
 
-  public List<Line> read(final long startPoint, final int lineCount) throws IOException {
+  public List<Line> readForward(final long startPoint, final int lineCount) throws IOException {
     final List<Line> lines = new ArrayList<Line>();
-    read(new Accessor() {
+    accessToFile(new Accessor() {
       @Override
       public void access(RandomAccessFile raf) throws IOException {
         long start = startPoint;
@@ -43,12 +43,12 @@ public class LogFileReader {
     return lines;
   }
 
-  public List<Line> readUp(final long startPoint, final int lineCount) throws IOException {
+  public List<Line> readBackward(final long startPoint, final int lineCount) throws IOException {
     final List<Line> lines = new ArrayList<Line>();
     if (startPoint <= 0) {
       return lines;
     }
-    read(new Accessor() {
+    accessToFile(new Accessor() {
       @Override
       public void access(RandomAccessFile raf) throws IOException {
         raf.seek(startPoint - 1);
@@ -85,7 +85,7 @@ public class LogFileReader {
   }
 
 
-  private void read(Accessor accessor) throws IOException {
+  private void accessToFile(Accessor accessor) throws IOException {
     RandomAccessFile randomAccessFile = null;
     try {
       randomAccessFile = new RandomAccessFile(file, "r");

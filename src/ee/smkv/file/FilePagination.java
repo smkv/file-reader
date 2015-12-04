@@ -50,7 +50,7 @@ public class FilePagination {
             randomAccessFile = new RandomAccessFile(file, "r");
             FileChannel channel = randomAccessFile.getChannel().position(fromPosition);
             ByteBuffer bb = ByteBuffer.allocate(Math.min(8192, count));
-            int read = 0;
+            int read;
             int cursor = 0;
             while ((read = channel.read(bb)) != -1) {
                 if (read == 0) continue;

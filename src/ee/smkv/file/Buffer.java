@@ -3,11 +3,12 @@ package ee.smkv.file;
 import java.io.UnsupportedEncodingException;
 
 class Buffer {
-  private byte[] array;
-  private int cursor = -1;
+  public static final int DELTA = 1024;
+  protected byte[] array;
+  protected int cursor = -1;
 
   Buffer() {
-    this(1024);
+    this(DELTA);
   }
 
   Buffer(int capacity) {
@@ -22,7 +23,7 @@ class Buffer {
   private void incrementCursorPosition() {
     cursor++;
     if (cursor >= array.length) {
-      increaseArray(1024);
+      increaseArray(DELTA);
     }
   }
 

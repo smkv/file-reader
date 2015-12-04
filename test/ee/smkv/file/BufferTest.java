@@ -72,4 +72,31 @@ public class BufferTest {
     buffer.append((byte)46);
     assertEquals("." , buffer.toString());
   }
+
+  @Test
+  public void testToStringUft8() throws Exception {
+    Buffer buffer = new Buffer();
+
+    for (byte b : "asdfghkфывапролдж".getBytes("UTF8")) {
+      buffer.append(b);
+    }
+
+    assertEquals("asdfghkфывапролдж" , buffer.toString("UTF8"));
+  }
+
+  @Test
+  public void testIncreaseBufferSize() throws Exception {
+    Buffer buffer = new Buffer(2);
+    assertEquals(2 , buffer.array.length);
+
+    buffer.append((byte)46);
+    assertEquals(2 , buffer.array.length);
+
+    buffer.append((byte)46);
+    assertEquals(2 , buffer.array.length);
+
+    buffer.append((byte)46);
+    assertEquals(1026 , buffer.array.length);
+
+  }
 }
