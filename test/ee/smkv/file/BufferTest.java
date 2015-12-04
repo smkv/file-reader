@@ -46,7 +46,30 @@ public class BufferTest {
   }
 
   @Test
-  public void testToString() throws Exception {
+  public void testSize() throws Exception {
+    Buffer buffer = new Buffer();
+    assertEquals(0 , buffer.size());
+    buffer.append((byte)1);
+    assertEquals(1 , buffer.size());
 
+    buffer.append((byte)1);
+    assertEquals(2 , buffer.size());
+
+  }
+  @Test
+  public void testIsEmpty() throws Exception {
+    Buffer buffer = new Buffer();
+    assertTrue(buffer.isEmpty());
+    buffer.append((byte)46);
+    assertFalse(buffer.isEmpty());
+
+  }
+
+  @Test
+  public void testToString() throws Exception {
+    Buffer buffer = new Buffer();
+    assertEquals("" , buffer.toString());
+    buffer.append((byte)46);
+    assertEquals("." , buffer.toString());
   }
 }

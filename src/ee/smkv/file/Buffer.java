@@ -59,11 +59,11 @@ class Buffer {
   }
 
   public String toString() {
-    return isEmpty() ? "" : new String(array, 0, cursor);
+    return isEmpty() ? "" : new String(array, 0, size());
   }
 
   public String toString(String charset) throws UnsupportedEncodingException {
-    return isEmpty() ? "" : new String(array, 0, cursor, charset);
+    return isEmpty() ? "" : new String(array, 0, size(), charset);
   }
 
 
