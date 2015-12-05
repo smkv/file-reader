@@ -17,6 +17,8 @@ public class Server {
         httpServer.getServerConfiguration().addHttpHandler(new FileListHttpHandler(path), "/files");
         httpServer.getServerConfiguration().addHttpHandler(new ResourceHttpHandler(), "/resources");
         httpServer.start();
+        log.info("Server ready");
         Thread.currentThread().join();
+        log.info("Server stopped");
     }
 }

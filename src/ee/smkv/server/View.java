@@ -19,7 +19,7 @@ public class View {
     this.name = name;
   }
 
-  public void render(Writer writer , Model model) throws IOException, TemplateException {
+  public void render(Model model, Writer writer) throws IOException, TemplateException {
     Template template = cfg.getTemplate(name);
     template.process(model, writer);
   }
