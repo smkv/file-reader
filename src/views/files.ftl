@@ -18,7 +18,7 @@
   <![endif]-->
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="/resources/jquery.min.js"></script>
+  <script src="/resources/js/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="/resources/js/bootstrap.min.js"></script>
 </head>
@@ -46,8 +46,8 @@
 <#list files as file>
   <tr>
     <td>
-      <a href="/files${directory}/${file.name}">${file.name}</a>
-      <#if file.file><div class="pull-right"><a class="btn btn-default btn-xs" href="/files${directory}/${file.name}?startPage=-2">tail</a></div></#if>
+      <a href="/files/${directory}/${file.name}">${file.name}</a>
+      <!--<#if file.file><div class="pull-right"><a class="btn btn-default btn-xs" href="/files/${directory}/${file.name}?startPage=-2">tail</a></div></#if>-->
     </td>
     <td>${si (file.length())}</td>
     <td>${file.lastModified()?number_to_datetime }</td>

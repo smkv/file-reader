@@ -1,6 +1,9 @@
 package ee.smkv.server;
 
 import ee.smkv.file.FilePagination;
+import ee.smkv.file.Line;
+import ee.smkv.file.LogFileReader;
+import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
@@ -8,17 +11,14 @@ import org.glassfish.grizzly.http.server.Response;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class FileListHttpHandler extends HttpHandler {
     private static final Logger log = Logger.getLogger(FileListHttpHandler.class);
 
-    public static final FileFilter FILE_FILTER = new FileFilter() {
-        @Override
-        public boolean accept(File file) {
-            return !file.getName().startsWith(".") && (file.isDirectory() || file.getName().toLowerCase().endsWith(".log"));
-        }
-    };
+    public static final FileFilter FILE_FILTER = new LogFileFilter();
     private final File root;
 
     public FileListHttpHandler(File root) {
@@ -32,42 +32,65 @@ public class FileListHttpHandler extends HttpHandler {
     @Override
     public void service(Request request, Response response) throws Exception {
         log.info(String.format("%s %s", request.getMethod(), request.getRequestURI()));
-        String directory = request.getRequestURI().substring(request.getContextPath().length());
-        directory = directory.replaceAll("\\.\\./", ""); // forbid all relative paths '../' in path
-        File file = new File(root, directory);
+        File file = getFile(request);
+
+        if (file.isFile() && isAjax(request)) {
+            renderFileJson(request, response, file);
+        } else if (file.isFile()) {
+            renderFile(response, file);
+        } else {
+            renderDirectory(file, response);
+        }
+    }
+
+    private void renderFileJson(Request request, Response response, File file) throws IOException {
+        LogFileReader reader = new LogFileReader(file);
+
+
+        List<Line> lines = reader.readForward(Long.valueOf(request.getParameter("start")), 100);
+
+        JsonView view = new JsonView();
+        view.render(lines, response);
+
+    }
+
+    private void renderFile(Response response, File file) throws IOException, TemplateException {
+        Model model = new Model();
+        model.put("directory", getRelativeDirectory(file.getParentFile()));
+        model.put("file", file);
+
+        View view = new View("file.ftl");
+        view.render(model, response);
+    }
+
+    private String getRelativeDirectory(File file) {
+        String absolutePath = file.getAbsolutePath();
+        absolutePath = absolutePath.substring( root.getAbsolutePath().length());
+        return absolutePath;
+    }
+
+    private void renderDirectory(File directory, Response response) throws IOException, TemplateException {
+
+        File[] listFiles = directory.listFiles(FILE_FILTER);
+        Arrays.sort(listFiles);
+
+        Model model = new Model();
+        model.put("directory", getRelativeDirectory(directory));
+        model.put("files", listFiles);
+
+        View view = new View("files.ftl");
+        view.render(model, response);
+    }
+
+    private File getFile(Request request) {
+        String uri = request.getRequestURI().substring(request.getContextPath().length());
+        uri = uri.replaceAll("\\.\\./", "");
+        File file = new File(root, uri);
 
         if (!FILE_FILTER.accept(file)) {
             file = root;
         }
-
-        if (file.isFile()) {
-            FilePagination pagination = new FilePagination(file, 1024 * 10);// default page 10kB
-            if (isAjax(request)) {
-                int page = request.getParameter("page") != null ? Integer.valueOf(request.getParameter("page")) : 0;
-                response.setHeader("Content-Type", "text/plain; charset=utf-8");
-                response.getOutputStream().write(pagination.getPage(page));
-                response.getOutputStream().close();
-                return;
-            }
-
-            directory = directory.substring(0, directory.length() - file.getName().length());
-            View view = new View("file.ftl");
-            Model model = new Model();
-            model.put("directory", directory);
-            int pageNumber = request.getParameter("startPage") != null ? Integer.valueOf(request.getParameter("startPage")) : 0;
-            model.put("startPage", pageNumber);
-            model.put("file", file);
-            view.render(model, response.getWriter());
-
-        } else {
-            View view = new View("files.ftl");
-            Model model = new Model();
-            model.put("directory", directory);
-            File[] listFiles = file.listFiles(FILE_FILTER);
-            Arrays.sort(listFiles);
-            model.put("files", listFiles);
-            view.render(model, response.getWriter());
-        }
+        return file;
     }
 
 
