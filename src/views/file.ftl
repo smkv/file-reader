@@ -35,7 +35,7 @@
 
 <div class="container">
   <div class="page-header"><h1>${directory}/${file.name}</h1></div>
-  <div id="file_content"><div class="container"></div></div>
+  <div id="file_content"><div class="container"><#if tail??><div>....skipped, start since last ${tail!'0'} lines...</div></#if></div></div>
 </div>
 
 <script src="/resources/js/file.js"></script>
