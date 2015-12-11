@@ -48,7 +48,25 @@
 <div class="container">
     <div class="page-header"><h1>Files</h1>
     </div>
-    <p class="lead">${directory}/${file.name} (${si (file.length())})</p>
+    <div class="lead">
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Reload file <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/files${directory}/${file.name}">From beginning</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=100">last 100 lines</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=200">last 200 lines</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=300">last 300 lines</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=500">last 500 lines</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=1000">last 1000 lines</a></li>
+                </ul>
+            </div>
+        </div>
+        <a href="/files${directory}">${directory}</a>/${file.name} (${si (file.length())})
+        <div class="clearfix"></div>
+    </div>
 
     <div class="panel panel-default">
         <div id="file_content" class="panel-body"><div class="container"><#if tail??><div>....skipped, start since last ${tail!'0'} lines...</div></#if></div></div>
