@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
+import org.glassfish.grizzly.http.util.ContentType;
+import org.glassfish.grizzly.http.util.MimeType;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,6 +20,7 @@ public class ResourceHttpHandler extends HttpHandler {
         resourceUri = resourceUri.replaceAll("\\.\\./", ""); // forbid all relative paths '../' in path
         InputStream resourceAsStream = null;
         OutputStream outputStream = null;
+        response.setContentType(getContentType(resourceUri));
         try {
             resourceAsStream = getClass().getResourceAsStream(resourceUri);
             outputStream = response.getOutputStream();
@@ -36,5 +39,10 @@ public class ResourceHttpHandler extends HttpHandler {
             }
         }
 
+    }
+
+    private ContentType getContentType(String resourceUri) {
+        String mimeType = MimeType.getByFilename(resourceUri);
+        return ContentType.newContentType(mimeType);
     }
 }
