@@ -47,7 +47,7 @@
   <tr>
     <td>
       <a href="/files/${directory}/${file.name}">${file.name}</a>
-      <!--<#if file.file><div class="pull-right"><a class="btn btn-default btn-xs" href="/files/${directory}/${file.name}?startPage=-2">tail</a></div></#if>-->
+      <#if file.file><div class="pull-right"><a class="btn btn-default btn-xs" href="/files/${directory}/${file.name}?tail=100">tail</a></div></#if>
     </td>
     <td>${si (file.length())}</td>
     <td>${file.lastModified()?number_to_datetime }</td>

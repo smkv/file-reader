@@ -21,14 +21,21 @@
   <script src="/resources/js/bootstrap.min.js"></script>
   <script>
     var file = '${directory}/${file.name}';
+    var tail = ${tail!'undefined'}
   </script>
 
+  <style>
+      #file_content{
+        overflow: auto;
+        font-family: monospace;
+      }
+  </style>
 </head>
 <body>
 
 <div class="container">
   <div class="page-header"><h1>${directory}/${file.name}</h1></div>
-  <pre id="file_content"></pre>
+  <div id="file_content"><div class="container"></div></div>
 </div>
 
 <script src="/resources/js/file.js"></script>

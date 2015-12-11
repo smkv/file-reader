@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class FileListHttpHandler extends HttpHandler {
@@ -37,7 +38,7 @@ public class FileListHttpHandler extends HttpHandler {
         if (file.isFile() && isAjax(request)) {
             renderFileJson(request, response, file);
         } else if (file.isFile()) {
-            renderFile(response, file);
+            renderFile(request, response, file);
         } else {
             renderDirectory(file, response);
         }
@@ -46,18 +47,46 @@ public class FileListHttpHandler extends HttpHandler {
     private void renderFileJson(Request request, Response response, File file) throws IOException {
         LogFileReader reader = new LogFileReader(file);
 
+        Integer tail = getInteger(request, "tail");
+        Long start = getLong(request, "start");
+        List<Line> lines = Collections.emptyList();
 
-        List<Line> lines = reader.readForward(Long.valueOf(request.getParameter("start")), 100);
+        if (tail != null) {
+            lines = reader.readBackward(file.length(), tail);
+        }else if (start != null) {
+            lines = reader.readForward(start, 100);
+        }
 
         JsonView view = new JsonView();
         view.render(lines, response);
 
     }
 
-    private void renderFile(Response response, File file) throws IOException, TemplateException {
+    private Long getLong(Request request , String parameterName){
+        if(request.getParameter(parameterName) != null){
+            try {
+                return Long.valueOf(request.getParameter(parameterName));
+            } catch (NumberFormatException ignore) {
+            }
+        }
+        return null;
+    }
+
+    private Integer getInteger(Request request , String parameterName){
+        if(request.getParameter(parameterName) != null){
+            try {
+                return Integer.valueOf(request.getParameter(parameterName));
+            } catch (NumberFormatException ignore) {
+            }
+        }
+        return null;
+    }
+
+    private void renderFile(Request request, Response response, File file) throws IOException, TemplateException {
         Model model = new Model();
         model.put("directory", getRelativeDirectory(file.getParentFile()));
         model.put("file", file);
+        model.put("tail", getInteger(request ,"tail"));
 
         View view = new View("file.ftl");
         view.render(model, response);
