@@ -1,7 +1,7 @@
 $(function() {
 
     $(window).on('resize' , function(){
-        $('#file_content').css({height: $(window).height() - $('#file_content').offset().top - 10 });
+        $('#file_content').css({height: $(window).height() - $('#file_content').offset().top - 25 });
     }).resize();
 
 

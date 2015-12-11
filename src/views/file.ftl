@@ -36,9 +36,25 @@
 </head>
 <body>
 
+<#function si num>
+    <#assign order     = num?round?c?length />
+    <#assign thousands = ((order - 1) / 3)?floor />
+    <#if (thousands < 0)><#assign thousands = 0 /></#if>
+    <#assign siMap = [ {"factor": 1, "unit": ""}, {"factor": 1000, "unit": "K"}, {"factor": 1000000, "unit": "M"}, {"factor": 1000000000, "unit":"G"}, {"factor": 1000000000000, "unit": "T"} ]/>
+    <#assign siStr = (num / (siMap[thousands].factor))?string("0.#") + siMap[thousands].unit />
+    <#return siStr />
+</#function>
+
 <div class="container">
-  <div class="page-header"><h1>${directory}/${file.name}</h1></div>
-  <div id="file_content"><div class="container"><#if tail??><div>....skipped, start since last ${tail!'0'} lines...</div></#if></div></div>
+    <div class="page-header"><h1>Files</h1>
+    </div>
+    <p class="lead">${directory}/${file.name} (${si (file.length())})</p>
+
+    <div class="panel panel-default">
+        <div id="file_content" class="panel-body"><div class="container"><#if tail??><div>....skipped, start since last ${tail!'0'} lines...</div></#if></div></div>
+    </div>
+
+
 </div>
 
 <script src="/resources/js/file.js"></script>

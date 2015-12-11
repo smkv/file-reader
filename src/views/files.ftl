@@ -46,7 +46,7 @@
 <#list files as file>
   <tr>
     <td>
-      <a href="/files/${directory}/${file.name}">${file.name}</a>
+      <a href="/files${directory}/${file.name}">${file.name}</a>
       <#if file.file><div class="pull-right">
         <div class="btn-group">
           <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
