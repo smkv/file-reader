@@ -5,18 +5,23 @@ $(function() {
     }).resize();
 
 
-    var lastClass = 'bg-default';
+    var lastClass = '';
     function appendLines(data){
         if (data) {
           for(var i = 0 ; i < data.length ; i++){
-               if(data[i].content.indexOf(' WARN ') >=0){
-                  lastClass = 'bg-warning';
+              if(data[i].content.indexOf(' WARN ') >=0){
+                  lastClass = 'bg-warning  text-warning';
               }else if(data[i].content.indexOf(' ERROR ') >=0){
-                  lastClass = 'bg-danger';
-              }else{
-                  lastClass = 'bg-default';
+                  lastClass = 'bg-danger text-danger';
+              }else if(data[i].content.indexOf(' FATAL ') >=0){
+                  lastClass = 'bg-danger text-danger';
+              }else if(data[i].content.indexOf(' INFO ') >=0){
+                  lastClass = '';
+              }else if(data[i].content.indexOf(' DEBUG ') >=0){
+                  lastClass = 'text-mute';
+              }else if(data[i].content.indexOf(' TRACE ') >=0){
+                  lastClass = 'text-mute';
               }
-
             $('#file_content div.container').append(
                 $('<div>', {'data-start': data[i].startPoint,'data-end': data[i].endPoint ,'class':lastClass}).text(data[i].content)
             );

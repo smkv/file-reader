@@ -29,6 +29,9 @@
         overflow: auto;
         font-family: monospace;
       }
+      #file_content > div.container > div:hover{
+        background-color: #eee;
+      }
   </style>
 </head>
 <body>
