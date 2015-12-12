@@ -26,26 +26,37 @@ $(function () {
 
 
     var lastClass = '';
+    function getClassName(text){
+            if (text.indexOf(' WARN ') >= 0) {
+                lastClass = 'bg-warning  text-warning';
+            } else if (text.indexOf(' ERROR ') >= 0) {
+                lastClass = 'bg-danger text-danger';
+            } else if (text.indexOf(' FATAL ') >= 0) {
+                lastClass = 'bg-danger text-danger';
+            } else if (text.indexOf(' INFO ') >= 0) {
+                lastClass = '';
+            } else if (text.indexOf(' DEBUG ') >= 0) {
+                lastClass = 'text-mute';
+            } else if (text.indexOf(' TRACE ') >= 0) {
+                lastClass = 'text-mute';
+            }
+            return lastClass;
+    }
 
     function makeLine(data) {
-        if (data.content.indexOf(' WARN ') >= 0) {
-            lastClass = 'bg-warning  text-warning';
-        } else if (data.content.indexOf(' ERROR ') >= 0) {
-            lastClass = 'bg-danger text-danger';
-        } else if (data.content.indexOf(' FATAL ') >= 0) {
-            lastClass = 'bg-danger text-danger';
-        } else if (data.content.indexOf(' INFO ') >= 0) {
-            lastClass = '';
-        } else if (data.content.indexOf(' DEBUG ') >= 0) {
-            lastClass = 'text-mute';
-        } else if (data.content.indexOf(' TRACE ') >= 0) {
-            lastClass = 'text-mute';
-        }
+
         return $('<div>', {
             'data-start': data.startPoint,
             'data-end': data.endPoint,
-            'class': lastClass
+            'class': getClassName(data.content)
         }).text(data.content);
+    }
+
+    function recolorize(element , count){
+        for(var i = 0 ; i < count ; i++){
+            element = element.next();
+            element.removeClass('bg-warning  text-warning bg-danger text-danger text-mute').addClass(getClassName(element.text()));
+        }
     }
 
 
@@ -114,6 +125,7 @@ $(function () {
                     for (var i = 0; i < data.length; i++) {
                         el.before(makeLine(data[i]));
                     }
+                    recolorize(el.prev() ,100);
                 }
 
 
