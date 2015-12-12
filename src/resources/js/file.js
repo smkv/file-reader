@@ -1,5 +1,17 @@
 $(function() {
 
+
+$.ajaxSetup({
+    beforeSend:function(){
+        // show gif here, eg:
+        $("#loading_indicator").show();
+    },
+    complete:function(){
+        // hide gif here, eg:
+        $("#loading_indicator").hide();
+    }
+});
+
     $(window).on('resize' , function(){
         $('#file_content').css({height: $(window).height() - $('#file_content').offset().top - 25 });
     }).resize();
