@@ -7,6 +7,7 @@ import org.glassfish.grizzly.http.server.Response;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 
 public class View {
   private final String name;
@@ -14,6 +15,7 @@ public class View {
   private static Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
   static {
     cfg.setClassForTemplateLoading(View.class , "/views");
+    cfg.setAutoIncludes(Arrays.asList("functions.ftl"));
   }
 
   public View(String name) {

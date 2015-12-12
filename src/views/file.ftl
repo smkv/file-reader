@@ -44,15 +44,6 @@
 </head>
 <body>
 
-<#function si num>
-    <#assign order     = num?round?c?length />
-    <#assign thousands = ((order - 1) / 3)?floor />
-    <#if (thousands < 0)><#assign thousands = 0 /></#if>
-    <#assign siMap = [ {"factor": 1, "unit": ""}, {"factor": 1000, "unit": "K"}, {"factor": 1000000, "unit": "M"}, {"factor": 1000000000, "unit":"G"}, {"factor": 1000000000000, "unit": "T"} ]/>
-    <#assign siStr = (num / (siMap[thousands].factor))?string("0.#") + siMap[thousands].unit />
-    <#return siStr />
-</#function>
-
 <div class="container">
     <div class="page-header"><h1>Log viewer</h1>
     </div>
@@ -73,7 +64,7 @@
             </div>
         </div>
         <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
-        ${directory}/${file.name} (${si (file.length())})
+        ${directory}/${file.name} (${sizeHR (file.length())})
         <small id="loading_indicator" style="display: none;">Loading data ...</small>
         <div class="clearfix"></div>
     </div>
