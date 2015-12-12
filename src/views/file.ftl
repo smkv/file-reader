@@ -39,44 +39,46 @@
       .last-end:before{
         content:'\2023';
         position: relative;
-          margin-left: -10px;
+        margin-left: -10px;
       }
   </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="page-header"><h1>Log viewer</h1>
-    </div>
-    <div class="lead">
-        <div class="pull-right">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   Reload file <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="/logs${directory}/${file.name}">From beginning</a></li>
-                    <li><a href="/logs${directory}/${file.name}?tail=100">last 100 lines</a></li>
-                    <li><a href="/logs${directory}/${file.name}?tail=200">last 200 lines</a></li>
-                    <li><a href="/logs${directory}/${file.name}?tail=300">last 300 lines</a></li>
-                    <li><a href="/logs${directory}/${file.name}?tail=500">last 500 lines</a></li>
-                    <li><a href="/logs${directory}/${file.name}?tail=999">last 999 lines</a></li>
-                </ul>
-            </div>
-        </div>
-        <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
-        ${directory}/${file.name} (${sizeHR (file.length())}) <span id="load_percent">0%</span>
-        <small id="loading_indicator" style="display: none;">Loading data ...</small>
-        <div class="clearfix"></div>
-    </div>
-
-    <div class="panel panel-default">
-        <div id="file_content" class="panel-body"><div class="content"></div></div>
-    </div>
 
 
-</div>
+  </head>
+  <body>
 
-<script src="/resources/js/file.js"></script>
-</body>
-</html>
+  <div class="container">
+      <div class="page-header"><h1>Log viewer</h1>
+      </div>
+      <div class="lead">
+          <div class="pull-right">
+              <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Reload file <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                      <li><a href="/logs${directory}/${file.name}">From beginning</a></li>
+                      <li><a href="/logs${directory}/${file.name}?tail=100">last 100 lines</a></li>
+                      <li><a href="/logs${directory}/${file.name}?tail=200">last 200 lines</a></li>
+                      <li><a href="/logs${directory}/${file.name}?tail=300">last 300 lines</a></li>
+                      <li><a href="/logs${directory}/${file.name}?tail=500">last 500 lines</a></li>
+                      <li><a href="/logs${directory}/${file.name}?tail=999">last 999 lines</a></li>
+                  </ul>
+              </div>
+          </div>
+          <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
+          ${directory}/${file.name} (${sizeHR (file.length())}) <span id="load_percent">0%</span>
+          <small id="loading_indicator" style="display: none;">Loading data ...</small>
+          <div class="clearfix"></div>
+      </div>
+
+      <div class="panel panel-default">
+          <div id="file_content" class="panel-body"><div class="content"></div></div>
+      </div>
+
+
+  </div>
+
+  <script src="/resources/js/file.js"></script>
+  </body>
+  </html>

@@ -1,5 +1,8 @@
 $(function () {
 
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
     var file_content = $('#file_content');
 
     $.ajaxSetup({
@@ -78,6 +81,9 @@ $(function () {
     function onScroll() {
         var containerHeight = $('div.content', file_content).height();
         var bottomPosition = file_content.scrollTop() + file_content.height();
+        if(msie){
+            bottomPosition += 30;
+        }
         if (bottomPosition >= containerHeight) {
             file_content.off('scroll');
             loadMore(10);
