@@ -22,7 +22,8 @@
   <script src="/resources/js/jquery.mousewheel.min.js"></script>
   <script>
     var file = '${directory}/${file.name}';
-    var tail = ${tail!'undefined'}
+    var fileSize = ${file.length()?c};
+    var tail = ${tail!'undefined'};
   </script>
 
   <style>
@@ -64,7 +65,7 @@
             </div>
         </div>
         <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
-        ${directory}/${file.name} (${sizeHR (file.length())})
+        ${directory}/${file.name} (${sizeHR (file.length())}) <span id="load_percent">0%</span>
         <small id="loading_indicator" style="display: none;">Loading data ...</small>
         <div class="clearfix"></div>
     </div>
