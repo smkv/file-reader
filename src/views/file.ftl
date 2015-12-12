@@ -60,7 +60,7 @@
                     <li><a href="/files${directory}/${file.name}?tail=200">last 200 lines</a></li>
                     <li><a href="/files${directory}/${file.name}?tail=300">last 300 lines</a></li>
                     <li><a href="/files${directory}/${file.name}?tail=500">last 500 lines</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=1000">last 1000 lines</a></li>
+                    <li><a href="/files${directory}/${file.name}?tail=999">last 999 lines</a></li>
                 </ul>
             </div>
         </div>
