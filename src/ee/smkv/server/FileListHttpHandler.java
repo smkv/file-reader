@@ -48,13 +48,19 @@ public class FileListHttpHandler extends HttpHandler {
         LogFileReader reader = new LogFileReader(file);
 
         Integer tail = getInteger(request, "tail");
+        Integer size = getInteger(request, "size");
         Long start = getLong(request, "start");
         List<Line> lines = Collections.emptyList();
+        if(size == null){
+            size = 100;
+        }
 
-        if (tail != null) {
+        if (start != null && "backward".equalsIgnoreCase(request.getParameter("direction"))) {
+            lines = reader.readBackward(start, size);
+        }else if (tail != null) {
             lines = reader.readBackward(file.length(), tail);
         }else if (start != null) {
-            lines = reader.readForward(start, 100);
+            lines = reader.readForward(start, size);
         }
 
         JsonView view = new JsonView();

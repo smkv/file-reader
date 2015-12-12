@@ -19,6 +19,7 @@
 
   <script src="/resources/js/jquery.min.js"></script>
   <script src="/resources/js/bootstrap.min.js"></script>
+  <script src="/resources/js/jquery.mousewheel.min.js"></script>
   <script>
     var file = '${directory}/${file.name}';
     var tail = ${tail!'undefined'}
@@ -46,6 +47,12 @@
       @keyframes spin {
       from { transform: scale(1) rotate(0deg);}
       to { transform: scale(1) rotate(360deg);}
+      }
+
+      .last-end:before{
+        content:'\2023';
+        position: relative;
+          margin-left: -10px;
       }
   </style>
 </head>
