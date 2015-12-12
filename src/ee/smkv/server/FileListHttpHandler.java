@@ -92,6 +92,7 @@ public class FileListHttpHandler extends HttpHandler {
         Model model = new Model();
         model.put("directory", getRelativeDirectory(file.getParentFile()));
         model.put("file", file);
+        model.put("parent", getParent(file));
         model.put("tail", getInteger(request ,"tail"));
 
         View view = new View("file.ftl");
@@ -112,6 +113,7 @@ public class FileListHttpHandler extends HttpHandler {
         Model model = new Model();
         model.put("directory", getRelativeDirectory(directory));
         model.put("files", listFiles);
+        model.put("parent", getParent(directory));
 
         View view = new View("files.ftl");
         view.render(model, response);
@@ -126,6 +128,13 @@ public class FileListHttpHandler extends HttpHandler {
             file = root;
         }
         return file;
+    }
+
+    private String getParent(File file){
+        if(file.getAbsoluteFile().equals(root.getAbsoluteFile())){
+            return null;
+        }
+        return file.getParentFile().getAbsolutePath().substring(root.getAbsolutePath().length());
     }
 
 

@@ -25,7 +25,9 @@
 <body>
 
 <div class="container">
-<div class="page-header"><h1>Files</h1></div>
+<div class="page-header">
+  <h1>Files </h1>
+</div>
 
 <#function si num>
   <#assign order     = num?round?c?length />
@@ -36,7 +38,10 @@
   <#return siStr />
 </#function>
 
-<p class="lead">${directory}</p>
+<p class="lead">
+  <#if parent??><a class="btn btn-default btn-sm" href="/files${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
+  ${directory}
+</p>
 <table width="100%" class="table table-striped">
   <tr>
     <th width="70%" align="left">File</th>

@@ -86,7 +86,8 @@
                 </ul>
             </div>
         </div>
-        <a href="/files${directory}">${directory}</a>/${file.name} (${si (file.length())})
+        <#if parent??><a class="btn btn-default btn-sm" href="/files${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
+        ${directory}/${file.name} (${si (file.length())})
         <small id="loading_indicator" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none;"></small>
         <div class="clearfix"></div>
     </div>
