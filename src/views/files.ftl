@@ -67,7 +67,7 @@
         </div>
       </div></#if>
     </td>
-    <td>${si (file.length())}</td>
+    <td><#if file.file>${si (file.length())}</#if></td>
     <td>${file.lastModified()?number_to_datetime }</td>
   </tr>
 </#list>
