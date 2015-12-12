@@ -15,8 +15,8 @@ public class Server {
         log.info("Starting http server on port " + port + " to directory" + path);
         final HttpServer httpServer = HttpServer.createSimpleServer(null, port);
 
-        httpServer.getServerConfiguration().addHttpHandler(new RedirectHttpHandler("/files"));
-        httpServer.getServerConfiguration().addHttpHandler(new FileListHttpHandler(path), "/files");
+        httpServer.getServerConfiguration().addHttpHandler(new RedirectHttpHandler("/logs"));
+        httpServer.getServerConfiguration().addHttpHandler(new FileListHttpHandler(path), "/logs");
         httpServer.getServerConfiguration().addHttpHandler(new ResourceHttpHandler(), "/resources");
         httpServer.start();
         log.info("Server ready");

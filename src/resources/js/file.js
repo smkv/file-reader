@@ -64,13 +64,13 @@ $(function() {
     }
     function loadMore(size) {
        console.log("Loading more starting from  " + start);
-       $.ajax('/files'+ file, {data: {start : start, size: size} , dataType:'json'}).done(function(data) {
+       $.ajax('/logs'+ file, {data: {start : start, size: size} , dataType:'json'}).done(function(data) {
          appendLines(data);
        });
       $('#file_content').on('scroll', onScroll);
      }
     if(tail){
-       $.ajax('/files'+ file, {data: {tail : tail} , dataType:'json'}).done(function(data) {
+       $.ajax('/logs'+ file, {data: {tail : tail} , dataType:'json'}).done(function(data) {
          appendLines(data);
          $('#file_content').on('scroll', onScroll);
        });
@@ -89,7 +89,7 @@ $(function() {
                 return;
                 }
 
-                $.ajax('/files'+ file, {data: {start : start, direction: 'backward' , size: 10} , dataType:'json'}).done(function(data) {
+                $.ajax('/logs'+ file, {data: {start : start, direction: 'backward' , size: 10} , dataType:'json'}).done(function(data) {
 
                     if (data) {
                       //$('.last-end', $('#file_content')).removeClass('last-end');

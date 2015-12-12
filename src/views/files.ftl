@@ -26,7 +26,7 @@
 
 <div class="container">
 <div class="page-header">
-  <h1>Files </h1>
+  <h1>Log viewer </h1>
 </div>
 
 <#function si num>
@@ -39,7 +39,7 @@
 </#function>
 
 <p class="lead">
-  <#if parent??><a class="btn btn-default btn-sm" href="/files${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
+  <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
   ${directory}
 </p>
 <table width="100%" class="table table-striped">
@@ -51,18 +51,18 @@
 <#list files as file>
   <tr>
     <td>
-      <a href="/files${directory}/${file.name}">${file.name}</a>
+      <a href="/logs${directory}/${file.name}">${file.name}</a>
       <#if file.file><div class="pull-right">
         <div class="btn-group">
           <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             tail <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="/files${directory}/${file.name}?tail=100">last 100 lines</a></li>
-            <li><a href="/files${directory}/${file.name}?tail=200">last 200 lines</a></li>
-            <li><a href="/files${directory}/${file.name}?tail=300">last 300 lines</a></li>
-            <li><a href="/files${directory}/${file.name}?tail=500">last 500 lines</a></li>
-            <li><a href="/files${directory}/${file.name}?tail=999">last 999 lines</a></li>
+            <li><a href="/logs${directory}/${file.name}?tail=100">last 100 lines</a></li>
+            <li><a href="/logs${directory}/${file.name}?tail=200">last 200 lines</a></li>
+            <li><a href="/logs${directory}/${file.name}?tail=300">last 300 lines</a></li>
+            <li><a href="/logs${directory}/${file.name}?tail=500">last 500 lines</a></li>
+            <li><a href="/logs${directory}/${file.name}?tail=999">last 999 lines</a></li>
           </ul>
         </div>
       </div></#if>

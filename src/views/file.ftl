@@ -68,7 +68,7 @@
 </#function>
 
 <div class="container">
-    <div class="page-header"><h1>Files</h1>
+    <div class="page-header"><h1>Log viewer</h1>
     </div>
     <div class="lead">
         <div class="pull-right">
@@ -77,16 +77,16 @@
                    Reload file <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="/files${directory}/${file.name}">From beginning</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=100">last 100 lines</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=200">last 200 lines</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=300">last 300 lines</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=500">last 500 lines</a></li>
-                    <li><a href="/files${directory}/${file.name}?tail=999">last 999 lines</a></li>
+                    <li><a href="/logs${directory}/${file.name}">From beginning</a></li>
+                    <li><a href="/logs${directory}/${file.name}?tail=100">last 100 lines</a></li>
+                    <li><a href="/logs${directory}/${file.name}?tail=200">last 200 lines</a></li>
+                    <li><a href="/logs${directory}/${file.name}?tail=300">last 300 lines</a></li>
+                    <li><a href="/logs${directory}/${file.name}?tail=500">last 500 lines</a></li>
+                    <li><a href="/logs${directory}/${file.name}?tail=999">last 999 lines</a></li>
                 </ul>
             </div>
         </div>
-        <#if parent??><a class="btn btn-default btn-sm" href="/files${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
+        <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
         ${directory}/${file.name} (${si (file.length())})
         <small id="loading_indicator" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none;"></small>
         <div class="clearfix"></div>
