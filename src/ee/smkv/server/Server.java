@@ -11,14 +11,18 @@ public class Server {
         String path = args.length > 0 ? args[0] : ".";
         Integer port = Integer.valueOf(System.getProperty("port", "8080"));
 
-        Logger log = Logger.getLogger(Server.class);
+        final Logger log = Logger.getLogger(Server.class);
         log.info("Starting http server on port " + port + " to directory" + path);
-        HttpServer httpServer = HttpServer.createSimpleServer("/", port);
+        final HttpServer httpServer = HttpServer.createSimpleServer(null, port);
+
+        httpServer.getServerConfiguration().addHttpHandler(new RedirectHttpHandler("/files"));
         httpServer.getServerConfiguration().addHttpHandler(new FileListHttpHandler(path), "/files");
         httpServer.getServerConfiguration().addHttpHandler(new ResourceHttpHandler(), "/resources");
         httpServer.start();
         log.info("Server ready");
         Thread.currentThread().join();
-        log.info("Server stopped");
+
+
     }
+
 }
