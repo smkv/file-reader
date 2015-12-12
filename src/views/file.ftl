@@ -34,20 +34,6 @@
         background-color: #eee;
       }
 
-      .glyphicon-refresh-animate {
-      -animation: spin .7s infinite linear;
-      -webkit-animation: spin2 .7s infinite linear;
-      }
-
-      @-webkit-keyframes spin2 {
-      from { -webkit-transform: rotate(0deg);}
-      to { -webkit-transform: rotate(360deg);}
-      }
-
-      @keyframes spin {
-      from { transform: scale(1) rotate(0deg);}
-      to { transform: scale(1) rotate(360deg);}
-      }
 
       .last-end:before{
         content:'\2023';
@@ -88,12 +74,12 @@
         </div>
         <#if parent??><a class="btn btn-default btn-sm" href="/logs${parent}"><span class="glyphicon glyphicon-level-up"></span> Level up</a></#if>
         ${directory}/${file.name} (${si (file.length())})
-        <small id="loading_indicator" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none;"></small>
+        <small id="loading_indicator" style="display: none;">Loading data ...</small>
         <div class="clearfix"></div>
     </div>
 
     <div class="panel panel-default">
-        <div id="file_content" class="panel-body"><div class="container"></div></div>
+        <div id="file_content" class="panel-body"><div class="content"></div></div>
     </div>
 
 

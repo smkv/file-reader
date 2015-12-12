@@ -40,10 +40,10 @@ $(function() {
         if (data) {
 
         //$('.last-end', $('#file_content')).removeClass('last-end');
-        $('#file_content div div').last().addClass('last-end');
+        $('#file_content div.content div').last().addClass('last-end');
 
           for(var i = 0 ; i < data.length ; i++){
-            $('#file_content div.container').append(makeLine(data[i]));
+            $('#file_content div.content').append(makeLine(data[i]));
             start = data[i].endPoint;
           }
         }
@@ -55,7 +55,7 @@ $(function() {
 
 
     function onScroll() {
-      var containerHeight = $('#file_content div.container').height();
+      var containerHeight = $('#file_content div.content').height();
       var bottomPosition = $('#file_content').scrollTop() + $('#file_content').height();
       if (  bottomPosition >=  containerHeight) {
         $('#file_content').off('scroll');
@@ -83,8 +83,8 @@ $(function() {
                console.log('Load previous');
                $('#file_content').off('mousewheel');
 
-                var el = $('#file_content div div').first()
-                var start = $('#file_content div div').first().attr('data-start');
+                var el = $('#file_content div.content div').first()
+                var start = $('#file_content div.content div').first().attr('data-start');
                 if(start <=0 ){
                 return;
                 }
