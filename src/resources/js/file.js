@@ -79,14 +79,16 @@ $(function () {
 
 
     function onScroll() {
+        file_content.off('scroll');
         var containerHeight = $('div.content', file_content).height();
         var bottomPosition = file_content.scrollTop() + file_content.height();
         if(msie){
             bottomPosition += 30;
         }
         if (bottomPosition >= containerHeight) {
-            file_content.off('scroll');
             loadMore(10);
+        }else{
+            file_content.on('scroll', onScroll);
         }
     }
 
