@@ -30,8 +30,9 @@
       #file_content{
         overflow: auto;
         font-family: monospace;
+        white-space: pre-wrap;
       }
-      #file_content > div.container > div:hover{
+      #file_content > div.content > div:hover{
         background-color: #eee;
       }
 
