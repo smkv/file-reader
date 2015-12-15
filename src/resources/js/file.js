@@ -46,10 +46,10 @@ $(function() {
       lastClass = '';
     }
     else if (text.indexOf(' DEBUG ') >= 0) {
-      lastClass = 'text-mute';
+      lastClass = 'text-muted';
     }
     else if (text.indexOf(' TRACE ') >= 0) {
-      lastClass = 'text-mute';
+      lastClass = 'text-muted';
     }
     return lastClass;
   }
