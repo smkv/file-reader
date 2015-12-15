@@ -99,6 +99,7 @@ $(function() {
     else {
       file_content.on('scroll', onScroll);
     }
+    showFileVisiblePercent();
   }
 
   function loadMore(size) {
